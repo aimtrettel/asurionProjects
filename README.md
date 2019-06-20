@@ -1,2 +1,2 @@
 # asurionProjects
-used for non-work projects during internship
+A place to keep the code that I write that does not have to do with Asurion's products
