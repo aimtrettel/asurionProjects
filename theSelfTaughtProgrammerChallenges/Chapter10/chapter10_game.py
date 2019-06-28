@@ -1,4 +1,5 @@
 # Make hangman using everything we've learned so far
+# To Do: make leaderboard, keep track of wrong letters
 
 import random
 import csv
@@ -20,7 +21,7 @@ def hangman(word):
         "|          ",
         "|__________"
     ]
-    dead_stage2 = [
+    stage2 = [
         "___________",
         "|     |    ",
         "|     O    ",
@@ -30,7 +31,7 @@ def hangman(word):
         "|          ",
         "|__________"
     ]
-    dead_stage3 = [
+    stage3 = [
         "___________",
         "|     |    ",
         "|     O    ",
@@ -40,7 +41,7 @@ def hangman(word):
         "|          ",
         "|__________"
     ]
-    dead_stage4 = [
+    stage4 = [
         "___________",
         "|     |    ",
         "|     O    ",
@@ -50,7 +51,7 @@ def hangman(word):
         "|          ",
         "|__________"
     ]
-    dead_stage5 = [
+    stage5 = [
         "___________",
         "|     |    ",
         "|     O    ",
@@ -60,7 +61,7 @@ def hangman(word):
         "|  _/      ",
         "|__________"
     ]
-    dead_stage6 = [
+    stage6 = [
         "___________",
         "|     |    ",
         "|     O    ",
@@ -81,12 +82,12 @@ def hangman(word):
         "|__________"
     ]
     dead_stages = [
-        dead_stage1,
-        dead_stage2,
-        dead_stage3,
-        dead_stage4,
-        dead_stage5,
-        dead_stage6
+        stage1,
+        stage2,
+        stage3,
+        stage4,
+        stage5,
+        stage6
     ]
     win_graphic = [
         " /-------\ ",
@@ -99,7 +100,9 @@ def hangman(word):
         "___/___\___"
         ]
     print(div)
-    print("Welcome to Hangman!")
+    name = input("What is your name? ").capitalize()
+    print(div)
+    print("Welcome to Hangman, " + name + "!")
     print("\n".join(stage))
     wrong = 0
     
@@ -143,6 +146,27 @@ def addWord():
         w = csv.writer(f, delimiter="\n")
         w.writerow([newWord])
 
+def chooseWord():
+    word = ""
+    words = []
+    print("\nWORD OPTIONS:")
+    with open("words.csv", "r") as f:
+        reader = csv.reader(f, delimiter="\n")
+        for i,row in enumerate(reader):
+            print(row[0] + ":   \t" + str(i))
+            words.append(row[0])
+        print("Some new word that I specify: n")
+        choice = input("Type the number of the word you want to choose: ").lower()
+        if choice == "n":
+            word = input("What word do you want your opponent to solve? ").lower()
+        else:
+            word = words[int(choice)]
+    i = 50
+    while i > 0:
+        print("-----")
+        i -= 1
+    hangman(word)
+
 def options():
     option = ""
     while option != "q":
@@ -156,7 +180,7 @@ def options():
         if option == "s":
             startGame()
         elif option == "c":
-            print("choose word")
+            chooseWord()
         elif option == "a":
             addWord()
         elif option != "q":
